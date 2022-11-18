@@ -96,4 +96,34 @@ post= async (date, idUser)=>{
     }
     return resp;
  }
-module.exports= {get,post, put, remove, io, cashbalance, lista}
+ filtro = async (data) =>{
+    input = "SELECT sum (value) AS input FROM moviment WHERE type='input' AND YEAR(date)=${data.year} AND MONTH(date) = ${data.month}";
+    output = "SELECT sum (value) AS output FROM moviment WHERE type='output' AND YEAR(date)=${data.year} AND MONTH(date) = ${data.month}";
+    const resultoutput = await mysql.query(output);
+    const resultinput = await mysql.query(input);
+    let resp = null;
+    if(resultinput && resultoutput){
+        resp = {
+            input: resultinput[0].input,
+            output: resultoutput[0].output,
+        };
+    }
+    return resp;
+};
+
+anoMes = async(data)=>{
+    input = "SELECT sum(value) AS input FROM moviment WHERE type='input' AND YEAR(date) BETWEEN ${data.year} AND ${data.finalyear} AND MONTH(date) BETWEEN ${data.month} AND ${data.finalmonth}";
+    output = "SELECT sum(value) AS output FROM moviment WHERE type='output' AND YEAR(date) BETWEEN ${data.year} AND ${data.finalyear} AND MONTH (date) BETWEEN ${data.month} AND ${data.finalmonth}";
+    const resultinput = await mysql.query(input);
+    const resultoutput = await mysql.query(output);
+    let resp = null;
+    if(resultinput && resultoutput){
+        resp = {
+            input: resultinput[0].input,
+            output: resultoutput[0].output,
+        };
+    }
+    return resp;
+};
+
+module.exports= {get,post, put, remove, io, cashbalance, lista,filto,anoMes}

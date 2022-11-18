@@ -124,5 +124,31 @@ router.put("/mov", async (req, res, next) => {
 router.delete("/movimento", async (req, res, next) => {
     movimento = movimentoController.delete(req.headers.idUser);
 });
+router.get("moviments/io/:year/:month", async (req, res) => {
+  auth = await userController.verifyJWT(req.headers["x-acess-token"]);
+  if(auth.idUser){
+    if(req.headers.idUser == auth.idUser){
+       resp = await movimentoController.filtro(req.params);
+    }else{
+      resp={status:"null", auth};
+    }
+  }else{
+    resp={status:"null", auth};
+  }
+  resp.status(200).send(resp);
+})
+router.get("/moviments/io/:year/:month /:month/:year", async (req,res)=>{
+  auth = await userController.verifyJWT(req.headers["x-acess-token"]);
+  if(auth.idUser){
+    if(req.headers.idUser == auth.idUser){
+      resp = await movimentoController.anoMes(req.params);
+    }else{
+      resp={status: "null", auth};
+    }
+  }else{
+    resp = {status: "null", auth};
+  }
+  res.atatus(200).send(resp);
+})
 
 module.exports = router;

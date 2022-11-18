@@ -33,3 +33,9 @@ exports.put = async (req, res) => {
 exports.delete = async (id) => {
     return await movimentoModel.delete(id, idUser);
 };
+exports.filtro = async(data)=>{
+    return await movimentoModel.filtro(data);
+}
+exports.anoMes= async(data)=>{
+    return await movimentoModel.anoMes(data);
+};
