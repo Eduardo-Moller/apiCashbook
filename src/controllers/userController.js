@@ -12,6 +12,5 @@ exports.logout = async (token) => {
 };
 
 exports.verifyJWT = (token) => {
-    cleber = userModel.verifyJWT(token);
-    return cleber;
+    return userModel.verifyJWT(token);
 };

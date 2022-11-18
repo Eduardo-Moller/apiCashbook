@@ -32,28 +32,26 @@ get = async () => {
     return await mysql.query(sql);
 }
 
-io= async () => {
+cashBalanceModel = async () => {
     sql = `SELECT sum(value) AS input FROM moviment WHERE type='input'`;
     input = await mysql.query(sql);
     sql = `SELECT sum(value) AS output FROM moviment WHERE type='output'`;
     output = await mysql.query(sql);
-    data = {
-        input: input[0].input,
-        output:output[0].output
-    }
+    saldo = input[0].input-output[0].output;
+    var data = {
+        saldo:saldo,
+        entrada:input[0].input,
+        saida:output[0].output
+    } 
     return data;
 }
 
-cashbalance= async () => {
-    sql = `SELECT sum(value) AS input FROM moviment WHERE type='input'`;
-    input = await mysql.query(sql);
-    sql = `SELECT sum(value) AS output FROM moviment WHERE type='output'`;
-    output = await mysql.query(sql);
-    data = input[0].input-output[0].output;
-    return data;
+ioModel = async () => {
+    sql = `SELECT DISTINCT m.date, (select SUM(value) from moviment WHERE date = m.date AND type = 'input') AS input, (select sum(value) from moviment WHERE date = m.date AND type = 'output') AS output FROM moviment m ORDER BY DATE`;
+    return await mysql.query(sql);
 }
 
-lista= async (year, month) => {
+listaAnoMes= async (year, month) => {
     sql = `SELECT * FROM moviment WHERE YEAR(date) = ${year} AND MONTH(date) = ${month}`;
     return await mysql.query(sql);
 }
@@ -97,33 +95,32 @@ post= async (date, idUser)=>{
     return resp;
  }
  filtro = async (data) =>{
-    input = "SELECT sum (value) AS input FROM moviment WHERE type='input' AND YEAR(date)=${data.year} AND MONTH(date) = ${data.month}";
-    output = "SELECT sum (value) AS output FROM moviment WHERE type='output' AND YEAR(date)=${data.year} AND MONTH(date) = ${data.month}";
+    input = `SELECT sum (value) AS input FROM moviment WHERE type='input' AND YEAR(date)=${data.year} AND MONTH(date) = ${data.month}`;
+    output = `SELECT sum (value) AS output FROM moviment WHERE type='output' AND YEAR(date)=${data.year} AND MONTH(date) = ${data.month}`;
     const resultoutput = await mysql.query(output);
     const resultinput = await mysql.query(input);
     let resp = null;
     if(resultinput && resultoutput){
         resp = {
-            input: resultinput[0].input,
-            output: resultoutput[0].output,
+            entrada: resultinput[0].input,
+            saida: resultoutput[0].output,
         };
     }
     return resp;
 };
 
 anoMes = async(data)=>{
-    input = "SELECT sum(value) AS input FROM moviment WHERE type='input' AND YEAR(date) BETWEEN ${data.year} AND ${data.finalyear} AND MONTH(date) BETWEEN ${data.month} AND ${data.finalmonth}";
-    output = "SELECT sum(value) AS output FROM moviment WHERE type='output' AND YEAR(date) BETWEEN ${data.year} AND ${data.finalyear} AND MONTH (date) BETWEEN ${data.month} AND ${data.finalmonth}";
+    input = `SELECT sum(value) AS input FROM moviment WHERE type='input' AND YEAR(date) BETWEEN ${data.year} AND ${data.finalyear} AND MONTH(date) BETWEEN ${data.month} AND ${data.finalmonth}`;
+    output = `SELECT sum(value) AS output FROM moviment WHERE type='output' AND YEAR(date) BETWEEN ${data.year} AND ${data.finalyear} AND MONTH (date) BETWEEN ${data.month} AND ${data.finalmonth}`;
     const resultinput = await mysql.query(input);
     const resultoutput = await mysql.query(output);
-    let resp = null;
     if(resultinput && resultoutput){
-        resp = {
+        dados = {
             input: resultinput[0].input,
             output: resultoutput[0].output,
         };
     }
-    return resp;
+    return dados;
 };
 
-module.exports= {get,post, put, remove, io, cashbalance, lista,filto,anoMes}
+module.exports= {get,post, put, remove, cashBalanceModel, ioModel, listaAnoMes, filtro, anoMes}

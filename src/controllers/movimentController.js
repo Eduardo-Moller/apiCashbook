@@ -12,20 +12,14 @@ exports.post = async (data, idUser) => {
 exports.get = async () => {
     return await movimentoModel.get();
 };
-exports.lista = async (year, month) => {
-    return await movimentoModel.lista(year, month);
+exports.MovimentsLista = async (year, month) => {
+    return await movimentoModel.listaAnoMes(year, month);
 };
-exports.io = async () => {
-    return await movimentoModel.io();
+exports.movimentsIo = async () => {
+    return await movimentoModel.ioModel();
 };
-exports.cashbalance = async () => {
-    cashbalance = await movimentoModel.cashbalance();
-    movimentos = await movimentoModel.io();
-    data = {
-        saldo:cashbalance,
-        movimentos:movimentos
-    }
-    return data;
+exports.cashBalance = async () => {
+    return await movimentoModel.cashBalanceModel();
 };
 exports.put = async (req, res) => {
     return await movimentoModel.put(data, idUser);
@@ -34,6 +28,7 @@ exports.delete = async (id) => {
     return await movimentoModel.delete(id, idUser);
 };
 exports.filtro = async(data)=>{
+    console.log(data)
     return await movimentoModel.filtro(data);
 }
 exports.anoMes= async(data)=>{

@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-/** ---------ROTAS------*/
+/** ----ROTAS----*/
 const router = express.Router();
 const route = require("./routers/router");
 app.use("/", route);

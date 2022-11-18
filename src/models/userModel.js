@@ -29,7 +29,7 @@ logout = (token) => {
     return { auth: false, token: null };
 };
 
-//função que verifica se o JWT é ok
+//função que verifica se o JWT esta valido
 verifyJWT = (token) => {
     if (!token) {
         resp = { auth: false, message: "Token não informado." };
