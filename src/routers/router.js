@@ -74,8 +74,7 @@ router.get("/moviments", async (req, res) => {
     }
     res.status(200).send(resp);
   });
-
-//FUNCIONA  
+ 
 router.get("/moviments/cashbalance", async (req, res) => {
    auth = userController.verifyJWT(req.headers["x-access-token"]);
     if (auth.idUser) {
@@ -88,11 +87,9 @@ router.get("/moviments/cashbalance", async (req, res) => {
     } else {
       resp = { status: "null", auth };
     }
-    console.log(resp)
     res.status(200).send(resp);
 });
 
-//FUNCIONA
 router.get("/moviments/io", async (req, res) => {
   auth = userController.verifyJWT(req.headers["x-access-token"]);
   if (auth.idUser) {
@@ -108,12 +105,13 @@ router.get("/moviments/io", async (req, res) => {
   res.status(200).send(resp);
 });
 
-//FUNCIONA + -
 router.get("/moviments/io/:year/:month", async (req, res) => {
   auth = userController.verifyJWT(req.headers["x-access-token"]);
   if (auth.idUser) {
     if (req.headers.iduser == auth.idUser) {
-      resp = await movimentoController.filtro(req.params);
+      const year = req.params.year;
+      const month = req.params.month;
+      resp = await movimentoController.anoMes(year, month);
       resp = Object.assign({}, resp, auth);
     } else {
       resp = { status: "null", auth };
@@ -124,21 +122,25 @@ router.get("/moviments/io/:year/:month", async (req, res) => {
   res.status(200).send(resp);
 })
 
-router.get("/moviments/io/:year/:month /:month/:year", async (req,res)=>{
-  auth = await userController.verifyJWT(req.headers["x-acess-token"]);
-  if(auth.idUser){
-    if(req.headers.idUser == auth.idUser){
-      resp = await movimentoController.anoMes(req.params);
-    }else{
-      resp={status: "null", auth};
+router.get("/moviments/io/:yearI/:monthI/:monthF/:yearF", async (req, res) => {
+  auth = userController.verifyJWT(req.headers["x-access-token"]);
+  if (auth.idUser) {
+    if (req.headers.iduser == auth.idUser) {
+      const yearI = req.params.yearI;
+      const monthI = req.params.monthI;
+      const yearF = req.params.yearF;
+      const monthF = req.params.monthF;
+      resp = await movimentoController.filtro(yearI, monthI, yearF, monthF);
+      resp = Object.assign({}, resp, auth);
+    } else {
+      resp = { status: "null", auth };
     }
-  }else{
-    resp = {status: "null", auth};
+  } else {
+    resp = { status: "null", auth };
   }
-  res.atatus(200).send(resp);
-})
+  res.status(200).send(resp);
+});
 
-//FUNCIONA
 router.get("/moviments/:year/:month", async (req, res) => {
     auth = userController.verifyJWT(req.headers["x-access-token"]);
     if (auth.idUser) {
@@ -155,6 +157,5 @@ router.get("/moviments/:year/:month", async (req, res) => {
     }
     res.status(200).send(resp);
 });
-
 
 module.exports = router;

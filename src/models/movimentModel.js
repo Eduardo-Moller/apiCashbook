@@ -94,33 +94,15 @@ post= async (date, idUser)=>{
     }
     return resp;
  }
- filtro = async (data) =>{
-    input = `SELECT sum (value) AS input FROM moviment WHERE type='input' AND YEAR(date)=${data.year} AND MONTH(date) = ${data.month}`;
-    output = `SELECT sum (value) AS output FROM moviment WHERE type='output' AND YEAR(date)=${data.year} AND MONTH(date) = ${data.month}`;
-    const resultoutput = await mysql.query(output);
-    const resultinput = await mysql.query(input);
-    let resp = null;
-    if(resultinput && resultoutput){
-        resp = {
-            entrada: resultinput[0].input,
-            saida: resultoutput[0].output,
-        };
-    }
-    return resp;
+
+filtro = async (yearI, monthI, yearF, monthF) =>{
+    sql = `SELECT DISTINCT m.date, (select SUM(value) from moviment WHERE date = m.date AND type = 'input') AS input, (select sum(value) from moviment WHERE date = m.date AND type = 'output' ) AS output FROM moviment m WHERE date BETWEEN '${yearI}-${monthI}-00' AND '${yearF}-${monthF}-00' ORDER BY date;`;
+    return await mysql.query(sql);
 };
 
-anoMes = async(data)=>{
-    input = `SELECT sum(value) AS input FROM moviment WHERE type='input' AND YEAR(date) BETWEEN ${data.year} AND ${data.finalyear} AND MONTH(date) BETWEEN ${data.month} AND ${data.finalmonth}`;
-    output = `SELECT sum(value) AS output FROM moviment WHERE type='output' AND YEAR(date) BETWEEN ${data.year} AND ${data.finalyear} AND MONTH (date) BETWEEN ${data.month} AND ${data.finalmonth}`;
-    const resultinput = await mysql.query(input);
-    const resultoutput = await mysql.query(output);
-    if(resultinput && resultoutput){
-        dados = {
-            input: resultinput[0].input,
-            output: resultoutput[0].output,
-        };
-    }
-    return dados;
+anoMes = async(year, month)=>{
+    sql = `SELECT DISTINCT m.date, (select SUM(value) from moviment WHERE date = m.date AND type = 'input') AS input, (select sum(value) from moviment WHERE date = m.date AND type = 'output' ) AS output FROM moviment m WHERE YEAR(date) = ${year} AND MONTH(date) = ${month} ORDER BY DATE`;
+    return await mysql.query(sql);
 };
 
 module.exports= {get,post, put, remove, cashBalanceModel, ioModel, listaAnoMes, filtro, anoMes}

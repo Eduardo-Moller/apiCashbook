@@ -27,10 +27,9 @@ exports.put = async (req, res) => {
 exports.delete = async (id) => {
     return await movimentoModel.delete(id, idUser);
 };
-exports.filtro = async(data)=>{
-    console.log(data)
-    return await movimentoModel.filtro(data);
+exports.filtro = async(yearI, monthI, yearF, monthF)=>{
+    return await movimentoModel.filtro(yearI, monthI, yearF, monthF);
 }
-exports.anoMes= async(data)=>{
-    return await movimentoModel.anoMes(data);
+exports.anoMes= async(year, month)=>{
+    return await movimentoModel.anoMes(year, month);
 };
