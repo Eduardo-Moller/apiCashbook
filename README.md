@@ -5,3 +5,4 @@
 
 # Rotas da api
 <p>GET    /moviments/cashbalance :Retorna um objeto contendo os valores de entrada, saida e saldo do caixa</p>
+<pGET   /moviments/io :Retorna um objeto contendo o historico de entradas e saidas de caixa ordenados por data</p>
