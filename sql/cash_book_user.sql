@@ -1,7 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `cash_book`;
 USE `cash_book`;
 
-
 DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE IF NOT EXISTS `user` (
