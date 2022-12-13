@@ -14,5 +14,5 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `user` (`id`, `name`, `email`, `password`, `type`) VALUES
-(1, 'Eduardo', 'eduardo.moller@hotmail.com', '45b45c21a0cdd1479235e69c936a09e6', 'admin');
+(1, 'User', 'email@mail.com.br', '45b45c21a0cdd1479235e69c936a09e6', 'admin');
 
