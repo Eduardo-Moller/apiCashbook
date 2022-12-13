@@ -12,7 +12,7 @@ Dentro da pasta raiz do projeto execute o comando seguinte
 npm i
 ```
 
-Logo em configure o banco de dados e execute o comando
+Logo em seguida configure o banco de dados e execute o comando
 
 ```
 npm start
