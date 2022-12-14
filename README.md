@@ -29,19 +29,19 @@ http://localhost:3000/
 ##
 
 ### Rotas da api
+```
+GET /moviments/cashbalance :Retorna um objeto contendo os valores de entrada, saída e saldo do caixa.
 
-<p>GET   /moviments/cashbalance :Retorna um objeto contendo os valores de entrada, saída e saldo do caixa.</p>
+GET /moviments/io :Retorna um objeto contendo o histórico de entradas e saídas de caixa ordenados por data.
 
-<p>GET   /moviments/io :Retorna um objeto contendo o histórico de entradas e saídas de caixa ordenados por data.</p>
+GET /moviments/io/:year/:month :Retorna um objeto contendo o histórico de entradas e saídas de uma determinada data.
 
-<p>GET   /moviments/io/:year/:month :Retorna um objeto contendo o histórico de entradas e saídas de uma determinada data.</p>
+GET /moviments/io/:year/:month /:month/:year :Retorna um objeto contendo o histórico de entradas e saídas entre duas determinadas datas.
 
-<p>GET   /moviments/io/:year/:month /:month/:year :Retorna um objeto contendo o histórico de entradas e saídas entre duas determinadas datas.</p>
+GET /moviments/:year/:month :Retorna um objeto contendo todos os movimentos de valores de uma determinada data.
 
-<p>GET   /moviments/:year/:month :Retorna um objeto contendo todos os movimentos de valores de uma determinada data.</p>
-
-<p>POST   /user/login :Rota de login</p>
-
+POST /user/login :Rota de login
+```
 ## 
 
 ### Conta para a realização de testes
